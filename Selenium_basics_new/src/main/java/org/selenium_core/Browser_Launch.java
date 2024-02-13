@@ -14,7 +14,7 @@ public class Browser_Launch {
 		System.out.println(page_url);
 		String page_source=driver.getPageSource();
 		System.out.println(page_source);
-		driver.close();
+		//driver.close();
 		//driver.quit();
 
 	}
