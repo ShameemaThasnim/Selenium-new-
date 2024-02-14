@@ -8,16 +8,26 @@ public class Webelement_Commands {
 	
 	public void verifysawg_Laps_Username() {
 		WebDriver driver = new ChromeDriver();
-		WebElement element=driver.findElement(By.id("user-name"));
+		driver.get("https://www.saucedemo.com/");
+		driver.manage().window().maximize();
+		WebElement user_ele=driver.findElement(By.id("user-name"));
+		user_ele.sendKeys("standard_user");
+		
 		WebElement pass_ele=driver.findElement(By.id("password"));
+		pass_ele.sendKeys("secret_sauce");
 		WebElement log_ele=driver.findElement(By.id("login-button"));
+		log_ele.click();
+		//String tagname=log_ele.getTagName();
+		//System.out.println(tagname);
+		driver.close();
 		
 		
 	}
 
 	public static void main(String[] args) {
-		//WebDriver driver = new ChromeDriver();
 		
+		Webelement_Commands  web = new Webelement_Commands();
+		web.verifysawg_Laps_Username();
 		
 
 	}
