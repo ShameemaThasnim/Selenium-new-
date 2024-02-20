@@ -8,6 +8,37 @@ import org.openqa.selenium.chrome.ChromeDriver;
 
 
 public class TourRegistration {
+	public void verfyIsDisplayed() {
+		WebDriver driver = new ChromeDriver();
+		driver.get("https://demowebshop.tricentis.com");
+		driver.manage().window().maximize();
+		WebElement vote= driver.findElement(By.xpath("//input[@id='vote-poll-1']"));
+		boolean isdisplayed=vote.isDisplayed();
+		System.out.println("IsDisplayed "+isdisplayed);
+		
+	}
+	public void verfyIsEnabled() {
+		WebDriver driver = new ChromeDriver();
+		driver.get("https://demowebshop.tricentis.com");
+		driver.manage().window().maximize();
+		WebElement subscribe= driver.findElement(By.xpath("//input[@id='newsletter-subscribe-button']"));
+		boolean isenabled=subscribe.isEnabled();
+		System.out.println("IsEnabled "+isenabled);
+		
+	}
+	public void verifyIsSelected() {
+		WebDriver driver = new ChromeDriver();
+		driver.get("https://demowebshop.tricentis.com/register");
+		driver.manage().window().maximize();
+		
+		WebElement radiobuttonfemale= driver.findElement(By.xpath("//input[@id='gender-female']"));
+		boolean isfemaleselected=radiobuttonfemale.isSelected();
+		System.out.println("female element before selected:"+isfemaleselected);
+		radiobuttonfemale.click();
+		boolean afterfemaleselected=radiobuttonfemale.isSelected();
+		System.out.println("female element after selection:"+afterfemaleselected);
+		
+	}
 	public void validateDemoWebShopUserLoginCss() {
 		WebDriver driver = new ChromeDriver();
 		driver.get("https://demowebshop.tricentis.com/");
@@ -115,7 +146,10 @@ public class TourRegistration {
 		//web.verifyLinkText();
 		//web.validateTotalNumberOfTagsInTheApplication();
 		//web.verifyCss();
-		web.validateDemoWebShopUserLoginCss();
+		//web.validateDemoWebShopUserLoginCss();
+		//web.verifyIsSelected();
+		//web.verfyIsEnabled();
+		web.verfyIsDisplayed();
 		
 		
 
