@@ -1,9 +1,12 @@
 package org.selenium.commands;
 
+import java.util.List;
+
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.support.ui.Select;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
@@ -108,6 +111,38 @@ public class ObsquaraOnTest extends Browser_Launch{
 		System.out.println(message.getText());
 		
 	}
+	@Test
+	
+	public void verifyTotalNumberOfDropDown() {
+		driver.get("https://selenium.qabible.in/index.php");
+		WebElement input_form=driver.findElement(By.xpath("(//div[@id='collapsibleNavbar']//li[@class='nav-item'])[1]"));
+		input_form.click();
+		WebElement select_input=driver.findElement(By.xpath("//a[text()='Select Input']"));
+		select_input.click();
+		WebElement colour_drop_down=driver.findElement(By.xpath("//select[@id='single-input-field']"));
+		Select select= new Select(colour_drop_down);
+		List<WebElement> drop_downcolours =select.getOptions();
+		System.out.println(drop_downcolours.size());
+		
+	}
+	@Test
+	
+	public void verifyColourSelectFromDropDown() {
+		
+		driver.get("https://selenium.qabible.in/index.php");
+		WebElement input_form=driver.findElement(By.xpath("(//div[@id='collapsibleNavbar']//li[@class='nav-item'])[1]"));
+		input_form.click();
+		WebElement select_input=driver.findElement(By.xpath("//a[text()='Select Input']"));
+		select_input.click();
+		WebElement colour_drop_down=driver.findElement(By.xpath("//select[@id='single-input-field']"));
+		Select select= new Select(colour_drop_down);
+		select.selectByVisibleText("Red");
+		WebElement selected=select.getFirstSelectedOption();
+		Assert.assertEquals(selected.getText(),"Red","colour doesn't match");
+		System.out.println(selected.getText());
+		
+	}
+	
 	
 
 }
