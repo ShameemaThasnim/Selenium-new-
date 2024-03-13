@@ -10,6 +10,7 @@ import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.Select;
 import org.testng.Assert;
 import org.testng.annotations.Test;
@@ -210,5 +211,78 @@ public class Commands extends Browser_Launch{
 		System.out.println(actualresult);
 		Assert.assertEquals(actualresult,"You entered Shameema","Text u entered doesn't match");
 		}
+	@Test
+	public void verifyRightClick() {
+		driver.get("https://demo.guru99.com/test/simple_context_menu.html");
+		WebElement rightclickbutton=driver.findElement(By.xpath("//span[@class='context-menu-one btn btn-neutral']"));
+		Actions action= new Actions(driver);
+		action.contextClick(rightclickbutton).build().perform();
+	}
+	@Test
+	public void verifyDoubleClick() {
+		driver.get("https://demo.guru99.com/test/simple_context_menu.html");
+		WebElement doubleclickbutton=driver.findElement(By.xpath("//button[text()='Double-Click Me To See Alert']"));
+		Actions action= new Actions(driver);
+		action.doubleClick(doubleclickbutton).build().perform();
+		Alert alert = driver.switchTo().alert();
+		String alert_message=alert.getText();
+		System.out.println(alert_message);
+		alert.accept();
+		
+	}
+	@Test
+	public void verifyDragAndDrop() {
+		driver.get("https://demoqa.com/droppable");
+		WebElement sourcedrag=driver.findElement(By.xpath("//div[@id='draggable']"));
+		WebElement targetdrag=driver.findElement(By.xpath("//div[@id='droppable']"));
+		Actions action= new Actions(driver);
+		action.dragAndDrop(sourcedrag, targetdrag).build().perform();
+		
+	}
+	@Test
+	public void verifyDragAndDropOffset() {
+		driver.get("https://demoqa.com/dragabble");
+		JavascriptExecutor js = (JavascriptExecutor) driver;
+        js.executeScript("window.scrollTo(0,document.body.scrollHeight) ");
+		WebElement sourcedrag=driver.findElement(By.xpath("//div[@id='dragBox']"));
+		Actions action= new Actions(driver);
+		action.dragAndDropBy(sourcedrag, 150, 150).build().perform();
+		
+	}
+	@Test
+	public void verifyMouseOver() {
+		driver.get("https://demoqa.com/menu/");
+		JavascriptExecutor js = (JavascriptExecutor) driver;
+        js.executeScript("window.scrollTo(0,document.body.scrollHeight) ");
+        Actions action= new Actions(driver);
+        WebElement mainbottun=driver.findElement(By.xpath("//a[text()='Main Item 2']"));
+        action.moveToElement(mainbottun).build().perform();
+        WebElement subbutton=driver.findElement(By.xpath("//a[text()='SUB SUB LIST »']"));
+        action.doubleClick(subbutton).build().perform();
+		
+	}
+	
+	@Test
+	public void verifyJavascriptClickAndSendkeys()
+	{
+	driver.get("https://demowebshop.tricentis.com/");	
+	JavascriptExecutor js = (JavascriptExecutor) driver;
+	js.executeScript("document.getElementById('newsletter-email').value='shameemathasnim.ma@gmail.com'");
+	js.executeScript("document.getElementById('newsletter-subscribe-button').click()");
+	}
+	@Test
+	public void verifyVerticalScroll()
+	{
+		driver.get("https://demowebshop.tricentis.com/");	
+		JavascriptExecutor js = (JavascriptExecutor) driver;
+		js.executeScript("window.scrollTo(0,document.body.scrollHeight)");
+	}
+	@Test
+	public void verifyScreenshot() {
+		driver.get("https://demowebshop.tricentis.com/");
+		String actualtittle=driver.getTitle();
+		String expectedtittle="demowebshop";
+		Assert.assertEquals(actualtittle, expectedtittle,"tille is not eqaul");
+	}
 
 }
