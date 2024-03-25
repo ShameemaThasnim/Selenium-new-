@@ -15,6 +15,8 @@ public class TourRegistration {
 		WebElement vote= driver.findElement(By.xpath("//input[@id='vote-poll-1']"));
 		boolean isdisplayed=vote.isDisplayed();
 		System.out.println("IsDisplayed "+isdisplayed);
+		String tag=vote.getTagName();
+		System.out.println(tag);
 		
 	}
 	public void verfyIsEnabled() {

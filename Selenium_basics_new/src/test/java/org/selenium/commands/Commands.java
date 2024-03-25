@@ -1,7 +1,9 @@
 package org.selenium.commands;
 
+import java.time.Duration;
 import java.util.Iterator;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Set;
 
 import org.openqa.selenium.Alert;
@@ -11,9 +13,13 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.interactions.Actions;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.FluentWait;
 import org.openqa.selenium.support.ui.Select;
+import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 import org.testng.annotations.Test;
+import org.testng.asserts.SoftAssert;
 
 public class Commands extends Browser_Launch{
 	@Test
@@ -129,8 +135,12 @@ public class Commands extends Browser_Launch{
 		select.selectByVisibleText("Red");
 		select.selectByVisibleText("Yellow");
 		List<WebElement> selected_values =select.getAllSelectedOptions();
-		for(WebElement e:selected_values) {
-			System.out.println(e.getText());
+		//for(WebElement e:selected_values) {
+			//System.out.println(e.getText());
+		//}
+		for(int i=0;i<selected_values.size();i++)
+		{
+			System.out.println(selected_values.get(i).getText());
 		}
 		select.deselectByVisibleText("Red");
 		
@@ -284,5 +294,142 @@ public class Commands extends Browser_Launch{
 		String expectedtittle="demowebshop";
 		Assert.assertEquals(actualtittle, expectedtittle,"tille is not eqaul");
 	}
-
+	@Test
+	public void verifyFrames() {
+		driver.get("https://demoqa.com/frames");
+		List<WebElement> iframecount=driver.findElements(By.tagName("iframe"));
+		int size=iframecount.size();
+		System.out.println("Total number of iframe in webpage :"+size);
+		WebElement iframe=driver.findElement(By.id("frame1"));
+		driver.switchTo().frame(iframe);
+		WebElement iframe_text=driver.findElement(By.id("sampleHeading"));
+		String text= iframe_text.getText();
+		System.out.println("iframe test is :"+text);
+		driver.switchTo().defaultContent();
+		
+	}
+    @Test
+	public void verifyDifferenceBetweenFindElementAndFindElements() {
+    	driver.get("https://demowebshop.tricentis.com/");
+    	//on match
+    	WebElement subscribe=driver.findElement(By.id("newsletter-subscribe-button"));
+    	System.out.println("webelement on match :"+subscribe);
+    	List<WebElement> communitypool=driver.findElements(By.xpath("//li[@class='answer']//label"));
+    	int size_communitypool=communitypool.size();
+    	System.out.println("community pool size :"+size_communitypool);
+    	
+    	//on zero match
+    	List<WebElement> communitypoolzeromatch=driver.findElements(By.xpath("//li[@class='answer1']//label"));
+    	int size_communitypoolzeromatch=communitypoolzeromatch.size();
+    	System.out.println("community pool size zro match :"+size_communitypoolzeromatch);
+    	//WebElement subscribenomatch=driver.findElement(By.id("newsletter-subscribe-button1"));
+    	//System.out.println("webelement on match :"+subscribenomatch);
+    	
+    	//on one plus match
+    	WebElement communitypooloneplus=driver.findElement(By.xpath("//li[@class='answer']//label"));
+    	communitypooloneplus.click();
+    	
+    	
+		
+	}
+    @Test
+    public void verifyIframeHomework() {
+    	driver.get("https://www.hyrtutorials.com/p/frames-practice.html");
+    	WebElement text_input=driver.findElement(By.id("name"));
+    	text_input.sendKeys("iframe practice");
+    	WebElement iframe=driver.findElement(By.id("frm1"));
+		driver.switchTo().frame(iframe);
+		WebElement iframe_dropdown=driver.findElement(By.xpath("//select[@id='selectnav1']"));
+		Select select= new Select(iframe_dropdown);
+		select.selectByVisibleText("- Java");
+		WebElement get_selected_value=select.getFirstSelectedOption();
+		System.out.println(get_selected_value.getText());
+		driver.switchTo().defaultContent();
+		WebElement iframe2=driver.findElement(By.id("frm2"));
+		driver.switchTo().frame(iframe2);
+		WebElement iframe2_dropdown=driver.findElement(By.xpath("//select[@id='selectnav1']"));
+		Select select2= new Select(iframe2_dropdown);
+		select2.selectByVisibleText("Tech News");
+		WebElement get_selected2_value=select2.getFirstSelectedOption();
+		System.out.println(get_selected2_value.getText());
+		driver.switchTo().defaultContent();
+		}
+    @Test
+    public void verifyDynamicTable() {
+    	driver.get("https://money.rediff.com/indices");
+    	WebElement showmore=driver.findElement(By.id("showMoreLess"));
+    	showmore.click();
+    	WebElement webtable=driver.findElement(By.xpath("//table[@id='dataTable']//tbody"));
+    	List<WebElement> raws=webtable.findElements(By.tagName("tr"));
+    	int raw_size=raws.size();
+    	for(int i=0;i<raw_size;i++)
+    	{
+    		List<WebElement> columns=raws.get(i).findElements(By.tagName("td"));
+    		int columns_size=columns.size();
+    		for(int j=0;j<columns_size;j++)
+    		{
+    			String cell_text=columns.get(j).getText();
+    			if(cell_text.equals("S&P BSE 200"))
+    			{
+    				System.out.println("Prev close value is :"+columns.get(1).getText());
+    			}
+    		}
+    	}
+    	
+    	
+    }
+    @Test
+    public void verifyWaits() {
+    	driver.get("https://demowebshop.tricentis.com");
+    	driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
+    	WebElement register=driver.findElement(By.className("ico-registers"));
+    	register.click();
+    	}
+    @Test
+    public void verifyExplicitWait() {
+    	driver.get("https://demoqa.com/alerts");
+    	JavascriptExecutor js=(JavascriptExecutor) driver;
+    	js.executeScript("window.scrollTo(0,document.body.scrollHeight)");
+    	WebDriverWait wait= new WebDriverWait(driver,Duration.ofSeconds(20));
+    	wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("timerAlertButton")));
+    	WebElement clickbutton=driver.findElement(By.id("timerAlertButton"));
+    	clickbutton.click();
+    	wait.until(ExpectedConditions.alertIsPresent());
+    	Alert alert=driver.switchTo().alert();
+    	alert.accept();
+    	
+    }
+    @Test
+    public void verifyFluentWait() {
+    	driver.get("https://demoqa.com/alerts");
+    	JavascriptExecutor js=(JavascriptExecutor) driver;
+    	js.executeScript("window.scrollTo(0,document.body.scrollHeight)");
+    	FluentWait fluwait= new FluentWait(driver);
+    	fluwait.withTimeout(Duration.ofSeconds(20));
+    	fluwait.pollingEvery(Duration.ofSeconds(2));
+    	fluwait.ignoring(NoSuchElementException.class);
+    	fluwait.until(ExpectedConditions.visibilityOfElementLocated(By.id("timerAlertButton")));
+    	WebElement clickbutton=driver.findElement(By.id("timerAlertButton"));
+    	clickbutton.click();
+    	fluwait.until(ExpectedConditions.alertIsPresent());
+    	Alert alert=driver.switchTo().alert();
+    	alert.accept();
+    	
+    	
+    	
+    	
+    }
+    @Test
+    public void verifySoftAssert() {
+    	SoftAssert softassert= new SoftAssert();
+    	System.out.println("***********Test case start***********");
+    	softassert.assertEquals("hello", "hello", "First soft alert is fail");
+    	System.out.println("**soft assert successfull**");
+    	softassert.assertTrue("Hello".equals("hello"),"Second soft assert is failed" );
+    	softassert.assertTrue("Ammu".equals("ammu"), "Third soft assert failed");
+    	System.out.println("*************Test case completed successfully***************");
+    	softassert.assertAll();
+    }
+        
+    	
 }
