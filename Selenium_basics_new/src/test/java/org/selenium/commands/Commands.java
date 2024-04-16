@@ -430,6 +430,20 @@ public class Commands extends Browser_Launch{
     	System.out.println("*************Test case completed successfully***************");
     	softassert.assertAll();
     }
+    @Test
+    public void parvathy() {
+    	driver.get("https://demoqa.com/automation-practice-form");
+    	WebElement dob= driver.findElement(By.id("dateOfBirthInput"));
+    	dob.click();
+    	WebElement month= driver.findElement(By.className("react-datepicker__month-select"));
+    	Select select= new Select(month);
+		select.selectByIndex(0);
+		WebElement year= driver.findElement(By.className("react-datepicker__year-select"));
+    	Select select1= new Select(year);
+		select1.selectByIndex(0);
+		WebElement date= driver.findElement(By.className("react-datepicker__day react-datepicker__day--002"));
+		date.click();
+    }
         
     	
 }

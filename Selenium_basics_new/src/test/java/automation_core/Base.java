@@ -13,6 +13,9 @@ import org.openqa.selenium.firefox.FirefoxDriver;
 import org.testng.ITestResult;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.Parameters;
+
+
 
 public class Base {
 	public WebDriver driver;
@@ -35,7 +38,7 @@ public class Base {
 		}
 		driver.manage().window().maximize();
 	}
-	@AfterMethod
+	@AfterMethod(alwaysRun= true)
 	public void closeBrowser(ITestResult result) throws IOException {
 		if(result.getStatus()==ITestResult.FAILURE)
 		{
@@ -44,10 +47,11 @@ public class Base {
 		driver.close();
 	}
 	
-	@BeforeMethod
-	public void setup() {
-		initialize_Browser("Chrome");
-		driver.get("https://demowebshop.tricentis.com/");
+	@BeforeMethod(alwaysRun= true)
+	@Parameters({"browser","baseurl"})
+	public void setup(String browsername, String url) {
+		initialize_Browser(browsername);
+		driver.get(url);
 	}
 	public void takeScreenShot(ITestResult result) throws IOException
 	{
