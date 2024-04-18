@@ -19,7 +19,7 @@ import pages.LoginPage;
 import pages.UserAccountPage;
 
 public class LoginPageTest extends Base{
-  @Test(priority=5,groups="Smoke",enabled=false)
+  @Test(priority=5,groups="Smoke")
   public void verifyLoginPageTittle() throws IOException {
 	 // WebElement login=driver.findElement(By.xpath("/html/body/div[4]/div[1]/div[1]/div[2]/div[1]/ul/li[2]/a"));
 	 // login.click();
