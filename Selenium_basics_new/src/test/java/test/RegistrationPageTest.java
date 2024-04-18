@@ -19,7 +19,7 @@ import pages.RegistrationPage;
 import pages.UserAccountPage;
 
 public class RegistrationPageTest extends Base {
-  @Test(priority=4,groups="Smoke",enabled=false)
+  @Test(priority=4,groups="Smoke")
   public void verifyRegisterPagetittle() throws IOException {
 	  WebElement register=driver.findElement(By.xpath("/html/body/div[4]/div[1]/div[1]/div[2]/div[1]/ul/li[1]/a"));
 	  register.click();
