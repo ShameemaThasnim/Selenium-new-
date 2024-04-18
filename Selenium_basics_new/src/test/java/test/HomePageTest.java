@@ -12,12 +12,13 @@ import org.testng.Assert;
 import org.testng.annotations.Test;
 
 import automation_core.Base;
+import listeners.RetryAnalyser;
 
 public class HomePageTest extends Base{
-  @Test(priority=1,groups={"Regression","Smoke"})
+  @Test(priority=1,groups={"Regression","Smoke"},retryAnalyzer= RetryAnalyser.class )
   public void verifyHomePageTittle() throws IOException {
 	  String actual_tittle=driver.getTitle();
-	  String data=ExcelUtility.readStringData(0, 0, Constants.HOME_PAGE_DATA);
+	  String data=ExcelUtility.readStringData(0, 0, Constants.HOME_PAGE_DATA)+"123";
 	  //Assert.assertEquals(actual_tittle, data,"Tittle is invalid");
 	  Assert.assertEquals(actual_tittle, data,Messages.TITTLE_MISMATCH);
   }
